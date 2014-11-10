@@ -360,3 +360,103 @@ var valley = new LifelikeWorld(
         "*": Plant
     }
 );
+
+
+
+////// artificial stupidity
+
+
+function SmartPlantEater() {
+    this.energy = 40;
+}
+SmartPlantEater.prototype.act = function(context) {
+    var space = context.find(" ");
+    if (this.energy > 60 && space)
+        return {
+            type: "reproduce",
+            direction: space
+        };
+    var plant = context.find("*");
+    if (plant)
+        return {
+            type: "eat",
+            direction: plant
+        };
+    if (space)
+        return {
+            type: "move",
+            direction: space
+        };
+};
+function SmartPlantEater() {}
+
+animateWorld(new LifelikeWorld(
+  ["############################",
+   "#####                 ######",
+   "##   ***                **##",
+   "#   *##**         **  O  *##",
+   "#    ***     O    ##**    *#",
+   "#       O         ##***    #",
+   "#                 ##**     #",
+   "#   O       #*             #",
+   "#*          #**       O    #",
+   "#***        ##**    O    **#",
+   "##****     ###***       *###",
+   "############################"],
+  {"#": Wall,
+   "O": SmartPlantEater,
+   "*": Plant}
+));
+
+
+
+///////tiger
+function Tiger() {
+    this.energy = 400;
+}
+Tiger.prototype.act = function(context) {
+    var space = context.find(" ");
+    if (this.energy > 20 && space)
+        return {
+            type: "reproduce",
+            direction: space
+        };
+    var smartplanteater = context.find("O");
+    if (smartplanteater)
+        return {
+            type: "eat",
+            direction: smartplanteater
+        };
+    if (space)
+        return {
+            type: "move",
+            direction: space
+        };
+};
+function Tiger() {}
+
+animateWorld(new LifelikeWorld(
+  ["####################################################",
+   "#                 ####         ****              ###",
+   "#   *  @  ##                 ########       OO    ##",
+   "#   *    ##        O O                 ****       *#",
+   "#       ##*                        ##########     *#",
+   "#      ##***  *         ****                     **#",
+   "#* **  #  *  ***      #########                  **#",
+   "#* **  #      *               #   *              **#",
+   "#     ##              #   O   #  ***          ######",
+   "#*            @       #       #   *        O  #    #",
+   "#*                    #  ######                 ** #",
+   "###          ****          ***                  ** #",
+   "#       O                        @         O       #",
+   "#   *     ##  ##  ##  ##               ###      *  #",
+   "#   **         #              *       #####  O     #",
+   "##  **  O   O  #  #    ***  ***        ###      ** #",
+   "###               #   *****                    ****#",
+   "####################################################"],
+  {"#": Wall,
+   "@": Tiger,
+   "O": SmartPlantEater, // from previous exercise
+   "*": Plant}
+));
+
